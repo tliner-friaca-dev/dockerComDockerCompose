@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+  docker-mysql:
+    image: mysql:5.7
+    container_name: docker-mysql-container
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - /var/lib/docker/volumes
+    restart: always
+    ports:
+      - "3306:3306"
+  docker-app:
+    build: "."
+    container_name: docker-app-container
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - docker-mysql
